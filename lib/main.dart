@@ -16,9 +16,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // Initialize the EventChannel
     final channel = EventChannel('example.com/channel');
-    // Set up a listener to receive events from the EventChannel
     channel.receiveBroadcastStream().listen((event) {
       setState(() {
         finalOutput = event;
@@ -40,4 +38,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-p
