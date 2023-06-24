@@ -1,19 +1,28 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-List<String> dangerList = [];
+class Pair<T1, T2> {
+  final T1 first;
+  final T2 second;
+
+  Pair(this.first, this.second);
+}
+
+List<String> dangerLabelsList = [];
 List<String> normalDangerList = [];
 
 Future<void> main() async {
   runApp(MyApp());
   String assetPathDanger = "assets/RedList.txt";
   String fileDangerContent = await rootBundle.loadString(assetPathDanger);
-  dangerList = fileDangerContent.split('\n');
-  for (int i = 0; i < dangerList.length; i++) {
-    dangerList[i] = dangerList[i].trim();
+  dangerLabelsList = fileDangerContent.split('\n');
+  for (int i = 0; i < dangerLabelsList.length; i++) {
+    dangerLabelsList[i] = dangerLabelsList[i].trim();
   }
-  dangerList.sort();
+  dangerLabelsList.sort();
 
   String assetPathNormalDanger = "assets/NormalList.txt";
   String fileNormalDangerContent =
@@ -31,12 +40,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String dangerOutput = '';
   String notDangerOutput = '';
   String normalDangerOutput = '';
+  List<Pair<String, DateTime>> detectedDangersList = [];
   @override
   void initState() {
     super.initState();
+
+    // Remove dangers labels after 5 sec
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      detectedDangersList.removeWhere((label) =>
+          DateTime.now().difference(label.second).inMilliseconds >= 5000);
+    });
+    // Initialize the EventChannel
+
     final channel = EventChannel('example.com/channel');
     channel.receiveBroadcastStream().listen((event) {
       setState(() {
@@ -47,7 +64,7 @@ class _MyAppState extends State<MyApp> {
         String normalDanger = '';
         for (int i = 0; i < curLine.length; i++) {
           List<String> words = curLine[i].split(':');
-          if (binarySearch(dangerList, words[0]) != -1) {
+          if (binarySearch(dangerLabelsList, words[0]) != -1) {
             danger = words[0];
             danger += '\n';
           } else if (binarySearch(normalDangerList, words[0]) != -1) {
@@ -58,13 +75,23 @@ class _MyAppState extends State<MyApp> {
             nonDanger += '\n';
           }
         }
-        dangerOutput += danger;
+        if (danger.isNotEmpty) {
+          detectedDangersList.add(Pair(danger, DateTime.now()));
+        }
         normalDangerOutput += normalDanger;
-        if (nonDanger != 'Could not classify') {
+        if (nonDanger != 'Could not classify\n') {
           notDangerOutput = nonDanger;
         }
       });
     });
+  }
+
+  String calcOutputDanger() {
+    String curOutput = "";
+    for (var x in detectedDangersList) {
+      curOutput += x.first;
+    }
+    return curOutput;
   }
 
   @override
@@ -79,7 +106,7 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('Danger Output:'),
-              Text(dangerOutput),
+              Text(calcOutputDanger()),
               SizedBox(height: 20),
               Text('Normal Danger Output:'),
               Text(normalDangerOutput),
