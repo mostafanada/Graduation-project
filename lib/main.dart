@@ -46,14 +46,15 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     // Remove dangers labels after 5 sec
     Timer.periodic(Duration(seconds: 1), (timer) {
       detectedDangersList.removeWhere((label) =>
           DateTime.now().difference(label.second).inMilliseconds >= 5000);
     });
     // Initialize the EventChannel
+
     final channel = EventChannel('example.com/channel');
-    // Set up a listener to receive events from the EventChannel
     channel.receiveBroadcastStream().listen((event) {
       setState(() {
         String splitedString = event;
