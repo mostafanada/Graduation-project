@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../Serves/all_function.dart';
+import 'Serves/all_function.dart';
 
 class output extends StatefulWidget {
   @override
