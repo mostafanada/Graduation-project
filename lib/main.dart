@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         if (danger.isNotEmpty) {
           detectedDangersList.add(Pair(danger, DateTime.now()));
         }
-        normalDangerOutput += normalDanger;
+        normalDangerOutput = normalDanger;
         if (nonDanger != 'Could not classify\n') {
           notDangerOutput = nonDanger;
         }
