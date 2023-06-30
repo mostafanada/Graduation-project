@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:createachannel/Screens/outputScreen.dart';
+import 'package:createachannel/Screens/OutputScreen/outputScreen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
