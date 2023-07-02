@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:vibration/vibration.dart';
 import 'Serves/all_function.dart';
 
 class output extends StatefulWidget {
@@ -13,9 +13,10 @@ class output extends StatefulWidget {
 
 class _output extends State<output> {
   bool _buttonClicked = false;
-  String notDangerOutput = '';
-  String normalDangerOutput = '';
   List<Pair<String, DateTime>> detectedDangersList = [];
+  List<Pair<String, DateTime>> detectedNormalDangerList = [];
+  List<Pair<String, DateTime>> detectedNormalList = [];
+  StreamSubscription? _subscription;
   attrbuties objectFromFun = attrbuties();
   @override
   void initState() {
@@ -26,48 +27,12 @@ class _output extends State<output> {
     Timer.periodic(Duration(seconds: 1), (timer) {
       detectedDangersList.removeWhere((label) =>
           DateTime.now().difference(label.second).inMilliseconds >= 5000);
+      detectedNormalDangerList.removeWhere((label) =>
+          DateTime.now().difference(label.second).inMilliseconds >= 5000);
+      detectedNormalList.removeWhere((label) =>
+          DateTime.now().difference(label.second).inMilliseconds >= 5000);
     });
     // Initialize the EventChannel
-
-    final channel = EventChannel('example.com/channel');
-    channel.receiveBroadcastStream().listen((event) {
-      setState(() {
-        String splitedString = event;
-        List<String> curLine = splitedString.split('\n');
-        String danger = '';
-        String nonDanger = '';
-        String normalDanger = '';
-        for (int i = 0; i < curLine.length; i++) {
-          List<String> words = curLine[i].split(':');
-          if (binarySearch(objectFromFun.dangerLabelsList, words[0]) != -1) {
-            danger = words[0];
-            danger += '\n';
-          } else if (binarySearch(objectFromFun.normalDangerList, words[0]) !=
-              -1) {
-            normalDanger = words[0];
-            normalDanger += '\n';
-          } else {
-            nonDanger += words[0];
-            nonDanger += '\n';
-          }
-        }
-        if (danger.isNotEmpty) {
-          detectedDangersList.add(Pair(danger, DateTime.now()));
-        }
-        normalDangerOutput = normalDanger;
-        if (nonDanger != 'Could not classify\n') {
-          notDangerOutput = nonDanger;
-        }
-      });
-    });
-  }
-
-  String calcOutputDanger() {
-    String curOutput = "";
-    for (var x in detectedDangersList) {
-      curOutput += x.first;
-    }
-    return curOutput;
   }
 
   Expanded greetingText() {
@@ -87,12 +52,8 @@ class _output extends State<output> {
                   style: TextStyle(
                       fontSize: 26,
                       color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-                TextSpan(
-                  text:
-                      'We detect the most important sounds and alert you when needed',
-                  style: TextStyle(fontSize: 26, color: Colors.black),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Playfair Display'),
                 ),
                 WidgetSpan(child: SizedBox(width: 16)),
               ],
@@ -104,9 +65,9 @@ class _output extends State<output> {
   }
 
   Expanded OutputList(BuildContext context) {
-    List<Widget> generateDangerLabels(int count) {
+    List<Widget> generateDangerLabels() {
       List<Widget> subCards = [];
-      for (int i = 1; i <= count; i++) {
+      for (var x in detectedDangersList) {
         subCards.add(
           Card(
             elevation: 0.0,
@@ -117,7 +78,7 @@ class _output extends State<output> {
             child: ListTile(
               leading: Icon(Icons.star),
               title: Text(
-                'Subcard $i',
+                x.first,
                 style: TextStyle(color: Colors.red),
               ),
               trailing: Image.asset('assets/Alarm.png'),
@@ -125,12 +86,13 @@ class _output extends State<output> {
           ),
         );
       }
+
       return subCards;
     }
 
-    List<Widget> generateNormalLabels(int count) {
+    List<Widget> generateNormalLabels() {
       List<Widget> subCards = [];
-      for (int i = 1; i <= count; i++) {
+      for (var x in detectedNormalList) {
         subCards.add(
           Card(
             elevation: 0.0,
@@ -141,7 +103,30 @@ class _output extends State<output> {
             child: ListTile(
               leading: Icon(Icons.star),
               title: Text(
-                'Subcard $i',
+                x.first,
+                style: TextStyle(color: Color.fromRGBO(72, 72, 82, 1)),
+              ),
+            ),
+          ),
+        );
+      }
+      return subCards;
+    }
+
+    List<Widget> generatedNormalDangerLabels() {
+      List<Widget> subCards = [];
+      for (var x in detectedNormalDangerList) {
+        subCards.add(
+          Card(
+            elevation: 0.0,
+            shape: RoundedRectangleBorder(
+              side: BorderSide.none,
+            ),
+            color: Color.fromRGBO(217, 217, 217, 1),
+            child: ListTile(
+              leading: Icon(Icons.star),
+              title: Text(
+                x.first,
                 style: TextStyle(color: Color.fromRGBO(72, 72, 82, 1)),
               ),
             ),
@@ -157,57 +142,115 @@ class _output extends State<output> {
           color: Colors.white,
           child: ListView(
             children: <Widget>[
-              Card(
-                margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
-                color: Color.fromRGBO(217, 217, 217, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                ),
-                child: ListTile(
-                  subtitle: Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: generateDangerLabels(1),
+              detectedDangersList.length > 0
+                  ? Card(
+                      margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
+                      color: Color.fromRGBO(217, 217, 217, 1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22.0),
                       ),
-                    ),
-                  ),
-                ),
-              ),
-              Card(
-                margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
-                color: Color.fromRGBO(217, 217, 217, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                ),
-                child: ListTile(
-                  subtitle: Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: generateNormalLabels(2),
+                      child: ListTile(
+                        subtitle: Container(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: generateDangerLabels(),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-              ),
-              Card(
-                margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
-                color: Color.fromRGBO(217, 217, 217, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                ),
-                child: ListTile(
-                  subtitle: Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: generateNormalLabels(1),
+                    )
+                  : SizedBox(height: 0),
+              detectedNormalDangerList.length > 0
+                  ? Card(
+                      margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
+                      color: Color.fromRGBO(217, 217, 217, 1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22.0),
                       ),
-                    ),
-                  ),
-                ),
-              ),
+                      child: ListTile(
+                        subtitle: Container(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: generatedNormalDangerLabels(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox(height: 0),
+              detectedNormalList.length > 0
+                  ? Card(
+                      margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
+                      color: Color.fromRGBO(217, 217, 217, 1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22.0),
+                      ),
+                      child: ListTile(
+                        subtitle: Container(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: generateNormalLabels(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox(height: 0),
             ],
           ),
         ));
+  }
+
+  void _toggleListener(bool start) {
+    if (start) {
+      final channel = EventChannel('example.com/channel');
+
+      _subscription = channel.receiveBroadcastStream().listen((event) {
+        setState(() {
+          String splitedString = event;
+          List<String> curLine = splitedString.split('\n');
+          String danger = '';
+          String nonDanger = '';
+          String normalDanger = '';
+          for (int i = 0; i < curLine.length; i++) {
+            List<String> words = curLine[i].split(':');
+            if (binarySearch(objectFromFun.dangerLabelsList, words[0]) != -1) {
+              danger = words[0];
+            } else if (binarySearch(objectFromFun.normalDangerList, words[0]) !=
+                -1) {
+              normalDanger = words[0];
+            } else {
+              if (words[0].isNotEmpty && words[0] != 'Could not classify') {
+                nonDanger = words[0];
+              }
+            }
+          }
+          if (danger.isNotEmpty) {
+            if (!detectedDangersList.any((pair) => pair.first == danger)) {
+              detectedDangersList.add(Pair(danger, DateTime.now()));
+              Vibration.vibrate(duration: 1000); // Vibrate for 1 second
+            }
+          }
+          if (normalDanger.isNotEmpty) {
+            if (!detectedNormalDangerList
+                .any((pair) => pair.first == normalDanger)) {
+              detectedNormalDangerList.add(Pair(normalDanger, DateTime.now()));
+              Vibration.vibrate(duration: 1000); // Vibrate for 1 second
+            }
+          }
+          if (nonDanger.isNotEmpty) {
+            if (!detectedNormalList.any((pair) => pair.first == nonDanger)) {
+              detectedNormalList.add(Pair(nonDanger, DateTime.now()));
+            }
+          }
+        });
+      });
+    } else {
+      detectedDangersList.clear();
+      detectedNormalDangerList.clear();
+      detectedNormalList.clear();
+      _subscription?.cancel();
+    }
   }
 
   @override
@@ -257,31 +300,56 @@ class _output extends State<output> {
               ),
             ),
           ),
-          body: Column(
-            children: <Widget>[
-              Expanded(
-                flex: 2,
-                child: FractionallySizedBox(
-                  widthFactor: 1.0,
-                  child: Image.asset(
-                    'assets/TopImage.png',
+          body: Container(
+            color: Colors.white, // Set the background color here
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  flex: 2,
+                  child: FractionallySizedBox(
+                    widthFactor: 1.0,
+                    child: Image.asset(
+                      'assets/TopImage.png',
+                    ),
                   ),
                 ),
-              ),
-              _buttonClicked ? OutputList(context) : greetingText(),
-              Expanded(
-                flex: 1,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      _buttonClicked = !_buttonClicked;
-                    });
-                  },
-                  icon: Icon(Icons.start),
-                  label: Text(_buttonClicked ? 'Stop' : 'Start'),
+                _buttonClicked ? OutputList(context) : greetingText(),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    color: Colors.transparent,
+                    margin: EdgeInsets.only(
+                        bottom: 16), // Set the bottom margin here
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _buttonClicked = !_buttonClicked;
+                          _toggleListener(_buttonClicked);
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors
+                            .white, // Set the background color to transparent here
+                        onSurface: Colors
+                            .white, // Set the hover and click color to transparent here
+                        elevation: 0.0, // Remove shadow here
+                        side: BorderSide.none, // Remove border here
+                      ),
+                      child: CircleAvatar(
+                        backgroundColor: Colors
+                            .white, // Set the background color of the circle here
+                        radius: 35, // Set the size of the circle here
+                        child: Image.asset(
+                          !_buttonClicked
+                              ? 'assets/icon_start.png'
+                              : 'assets/icon_stop.png', // Set the custom icon here
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
