@@ -12,6 +12,7 @@ class output extends StatefulWidget {
 }
 
 class _output extends State<output> {
+  bool _buttonClicked = false;
   String notDangerOutput = '';
   String normalDangerOutput = '';
   List<Pair<String, DateTime>> detectedDangersList = [];
@@ -69,25 +70,217 @@ class _output extends State<output> {
     return curOutput;
   }
 
+  Expanded greetingText() {
+    return Expanded(
+      flex: 7,
+      child: Container(
+        margin: EdgeInsets.all(16),
+        child: Center(
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              children: [
+                WidgetSpan(child: SizedBox(width: 16)),
+                TextSpan(
+                  text:
+                      'We detect the most important sounds and alert you when needed\n',
+                  style: TextStyle(
+                      fontSize: 26,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text:
+                      'We detect the most important sounds and alert you when needed',
+                  style: TextStyle(fontSize: 26, color: Colors.black),
+                ),
+                WidgetSpan(child: SizedBox(width: 16)),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded OutputList(BuildContext context) {
+    List<Widget> generateDangerLabels(int count) {
+      List<Widget> subCards = [];
+      for (int i = 1; i <= count; i++) {
+        subCards.add(
+          Card(
+            elevation: 0.0,
+            shape: RoundedRectangleBorder(
+              side: BorderSide.none,
+            ),
+            color: Color(0xFFD9D9D9),
+            child: ListTile(
+              leading: Icon(Icons.star),
+              title: Text(
+                'Subcard $i',
+                style: TextStyle(color: Colors.red),
+              ),
+              trailing: Image.asset('assets/Alarm.png'),
+            ),
+          ),
+        );
+      }
+      return subCards;
+    }
+
+    List<Widget> generateNormalLabels(int count) {
+      List<Widget> subCards = [];
+      for (int i = 1; i <= count; i++) {
+        subCards.add(
+          Card(
+            elevation: 0.0,
+            shape: RoundedRectangleBorder(
+              side: BorderSide.none,
+            ),
+            color: Color.fromRGBO(217, 217, 217, 1),
+            child: ListTile(
+              leading: Icon(Icons.star),
+              title: Text(
+                'Subcard $i',
+                style: TextStyle(color: Color.fromRGBO(72, 72, 82, 1)),
+              ),
+            ),
+          ),
+        );
+      }
+      return subCards;
+    }
+
+    return Expanded(
+        flex: 7,
+        child: Container(
+          color: Colors.white,
+          child: ListView(
+            children: <Widget>[
+              Card(
+                margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
+                color: Color.fromRGBO(217, 217, 217, 1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                ),
+                child: ListTile(
+                  subtitle: Container(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: generateDangerLabels(1),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Card(
+                margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
+                color: Color.fromRGBO(217, 217, 217, 1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                ),
+                child: ListTile(
+                  subtitle: Container(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: generateNormalLabels(2),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Card(
+                margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
+                color: Color.fromRGBO(217, 217, 217, 1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                ),
+                child: ListTile(
+                  subtitle: Container(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: generateNormalLabels(1),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Final Output'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Danger Output:'),
-              Text(calcOutputDanger()),
-              SizedBox(height: 20),
-              Text('Normal Danger Output:'),
-              Text(normalDangerOutput),
-              SizedBox(height: 20),
-              Text('Non-Danger Output:'),
-              Text(notDangerOutput),
+    return Theme(
+      data: ThemeData(
+        dividerColor: Colors.black, // Set the color of ListTile dividers here
+      ),
+      child: MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            backgroundColor:
+                Colors.white, // Set the background color of AppBar here
+            elevation: 0.0, // Remove shadow and border of AppBar here
+            leading: Builder(
+              builder: (context) => IconButton(
+                icon: Icon(
+                  Icons.menu,
+                  color: Colors.black, // Set the color of the drawer icon here
+                ),
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              ),
+            ),
+          ),
+          drawer: Drawer(
+            child: Container(
+              color: Color.fromRGBO(
+                  182, 183, 210, 1), // Set the background color here
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    ListTile(
+                      title: Text('History'),
+                    ),
+                    ListTile(
+                      title: Text('Settings'),
+                    ),
+                    ListTile(
+                      title: Text('Contact us'),
+                    ),
+                    ListTile(
+                      title: Text('About App'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          body: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: FractionallySizedBox(
+                  widthFactor: 1.0,
+                  child: Image.asset(
+                    'assets/TopImage.png',
+                  ),
+                ),
+              ),
+              _buttonClicked ? OutputList(context) : greetingText(),
+              Expanded(
+                flex: 1,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      _buttonClicked = !_buttonClicked;
+                    });
+                  },
+                  icon: Icon(Icons.start),
+                  label: Text(_buttonClicked ? 'Stop' : 'Start'),
+                ),
+              ),
             ],
           ),
         ),

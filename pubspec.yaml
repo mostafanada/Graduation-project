@@ -55,6 +55,8 @@ flutter:
   assets:
     - assets/RedList.txt
     - assets/NormalList.txt
+    - assets/TopImage.png
+    - assets/Alarm.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
