@@ -4,6 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vibration/vibration.dart';
+import '../SettingScreen/settings_screen.dart';
+import '../about screen/aboutScreen.dart';
+import '../contactus/contactUsScreen.dart';
 import 'Serves/all_function.dart';
 
 class output extends StatefulWidget {
@@ -275,27 +278,68 @@ class _output extends State<output> {
               ),
             ),
           ),
-          drawer: Drawer(
-            child: Container(
-              color: Color.fromRGBO(
-                  182, 183, 210, 1), // Set the background color here
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
-                    ListTile(
-                      title: Text('History'),
-                    ),
-                    ListTile(
-                      title: Text('Settings'),
-                    ),
-                    ListTile(
-                      title: Text('Contact us'),
-                    ),
-                    ListTile(
-                      title: Text('About App'),
-                    ),
-                  ],
+          drawer: SizedBox(
+            width: 197,
+            height: 852,
+            child: Drawer(
+              child: Container(
+                color: Color(0xFFB6B7D2),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 23.0),
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 220,
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text('History',
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20)),
+                      ),
+                      SizedBox(height: 25),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SettingsScreen(),
+                              ));
+                        },
+                        child: Text('Setting',
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20)),
+                      ),
+                      SizedBox(height: 25),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ContactUsScreen(),
+                              ));
+                        },
+                        child: Text('Contact Us',
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20)),
+                      ),
+                      SizedBox(height: 25),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => aboutScreen(),
+                              ));
+                        },
+                        child: Text('About us',
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20)),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

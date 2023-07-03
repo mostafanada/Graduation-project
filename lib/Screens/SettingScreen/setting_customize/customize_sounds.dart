@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class CustomizeSoundScreen extends StatefulWidget {
   @override
   State<CustomizeSoundScreen> createState() => _CustomizeSoundScreenState();
@@ -215,9 +214,14 @@ class _CustomizeSoundScreenState extends State<CustomizeSoundScreen> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
-        leading: IconButton(onPressed: (){
-          Navigator.pop(context);
-        }, icon: Icon(Icons.arrow_back,color: Colors.black,)),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )),
         toolbarHeight: 120,
         elevation: 0,
         backgroundColor: Color(0xFFF5F5F5),

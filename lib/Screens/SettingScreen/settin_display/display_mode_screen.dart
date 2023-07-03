@@ -39,7 +39,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color:  Color(0xffd9d9d9)),
+                      color: Color(0xffd9d9d9)),
                   child: ListTile(
                       title: Text(
                         'Tap to show',
@@ -72,7 +72,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color:  Color(0xffd9d9d9)),
+                      color: Color(0xffd9d9d9)),
                   child: Column(
                     children: [
                       ListTile(
@@ -92,41 +92,51 @@ class _DisplayScreenState extends State<DisplayScreen> {
                                 isSelect = 'Scheduled';
                                 setState(() {});
                               })),
-                     isSelect != 'Scheduled'?Container():Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Divider(thickness: 1,color: Colors.grey),
-                          ),
-                          ListTile(
-                              title: Text(
-                                'Start',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
+                      isSelect != 'Scheduled'
+                          ? Container()
+                          : Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.0),
+                                  child:
+                                      Divider(thickness: 1, color: Colors.grey),
                                 ),
-                              ),
-                              trailing: Text('6:00 am', style:
-                              TextStyle(fontSize: 14, ))),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Divider(thickness: 1,color: Colors.grey),
-                          ),
-                          ListTile(
-                              title: Text(
-                                'End',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
+                                ListTile(
+                                    title: Text(
+                                      'Start',
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    trailing: Text('6:00 am',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                        ))),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.0),
+                                  child:
+                                      Divider(thickness: 1, color: Colors.grey),
                                 ),
-                              ),
-                              trailing: Text('10:00 am',  style:
-                              TextStyle(fontSize: 14, )),
-                          )
-                        ],
-                      ),
+                                ListTile(
+                                  title: Text(
+                                    'End',
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  trailing: Text('10:00 am',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                      )),
+                                )
+                              ],
+                            ),
                     ],
                   ),
                 ),
@@ -139,8 +149,8 @@ class _DisplayScreenState extends State<DisplayScreen> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color:  Color(0xffd9d9d9)),
-                  child:  ListTile(
+                      color: Color(0xffd9d9d9)),
+                  child: ListTile(
                       title: Text(
                         'All Day',
                         style: TextStyle(
@@ -161,17 +171,19 @@ class _DisplayScreenState extends State<DisplayScreen> {
                 SizedBox(
                   height: 15,
                 ),
-                Text('Always On Display is not available when \n the battery is lower than 10%',textAlign: TextAlign.center,
-                    style:
-                    TextStyle(
+                Text(
+                    'Always On Display is not available when \n the battery is lower than 10%',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
                       fontSize: 16,
-                    )
-                ),
+                    )),
                 Spacer(),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: TextButton(
-                      onPressed: () {Navigator.pop(context);},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       child: Text(
                         'Back',
                         textAlign: TextAlign.start,

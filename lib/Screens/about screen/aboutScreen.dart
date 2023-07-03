@@ -1,3 +1,4 @@
+import 'package:createachannel/Screens/OutputScreen/outputScreen.dart';
 import 'package:flutter/material.dart';
 
 class aboutScreen extends StatelessWidget {
@@ -94,7 +95,11 @@ class aboutScreen extends StatelessWidget {
           padding: EdgeInsets.only(left: 16, bottom: 16),
           child: TextButton(
             onPressed: () {
-              "Back";
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => output(),
+                  ));
             },
             child: Text(
               'Back',
