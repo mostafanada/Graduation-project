@@ -36,6 +36,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   vibration: ^1.8.1
+  fluttertoast: ^8.2.2
+  shared_preferences: ^2.2.0
+  smooth_page_indicator: ^1.1.0
+  google_fonts: ^4.0.4
 
 dev_dependencies:
   flutter_test:
@@ -58,8 +62,7 @@ flutter:
     - assets/NormalList.txt
     - assets/TopImage.png
     - assets/Alarm.png
-    - assets/icon_start.png
-    - assets/icon_stop.png
+    - assets/images/
 
 
   # The following line ensures that the Material Icons font is

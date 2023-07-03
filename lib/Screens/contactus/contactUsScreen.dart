@@ -1,3 +1,5 @@
+import 'package:createachannel/Screens/OutputScreen/outputScreen.dart';
+import 'package:createachannel/Screens/contactus/sendemail/sendEmailScreen.dart';
 import 'package:flutter/material.dart';
 
 class ContactUsScreen extends StatelessWidget {
@@ -141,7 +143,13 @@ class ContactUsScreen extends StatelessWidget {
             Row(
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => output(),
+                        ));
+                  },
                   child: Text(
                     "Back",
                     style: TextStyle(
@@ -152,20 +160,31 @@ class ContactUsScreen extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
-                Container(
-                  height: 45,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Colors.indigoAccent,
-                  ),
-                  child: Text(
-                    "Next",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => sendEmailScreen(),
+                        ));
+                  },
+                  child: Container(
+                    height: 45,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Colors.indigoAccent,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Next",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 )
