@@ -54,6 +54,8 @@ class _output extends State<output> {
                 WidgetSpan(child: SizedBox(width: 16)),
                 TextSpan(
                   text:
+                      // startTime.hour.toString(),
+
                       'We detect the most important sounds and alert you when needed\n',
                   style: TextStyle(
                       fontSize: 26,
@@ -210,55 +212,75 @@ class _output extends State<output> {
   }
 
   void _toggleListener(bool start) {
-    if (start) {
-      final channel = EventChannel('example.com/channel');
+    final channel = EventChannel('example.com/channel');
 
-      _subscription = channel.receiveBroadcastStream().listen((event) {
-        setState(() {
-          String splitedString = event;
-          List<String> curLine = splitedString.split('\n');
-          String danger = '';
-          String nonDanger = '';
-          String normalDanger = '';
-          for (int i = 0; i < curLine.length; i++) {
-            List<String> words = curLine[i].split(':');
-            if (binarySearch(objectFromFun.dangerLabelsList, words[0]) != -1) {
-              danger = words[0];
-            } else if (binarySearch(objectFromFun.normalDangerList, words[0]) !=
-                -1) {
-              normalDanger = words[0];
-            } else {
-              if (words[0].isNotEmpty && words[0] != 'Could not classify') {
-                nonDanger = words[0];
+    Timer.periodic(Duration(minutes: 1), (timer) {
+      if (start) {
+        DateTime currentTime = DateTime.now();
+        if (currentTime.hour <= startTime.hour &&
+            currentTime.minute <= startTime.minute &&
+            currentTime.hour >= endTime.hour &&
+            currentTime.minute >= endTime.minute) {
+          _subscription = channel.receiveBroadcastStream().listen((event) {
+            setState(() {
+              String splitedString = event;
+              List<String> curLine = splitedString.split('\n');
+              String danger = '';
+              String nonDanger = '';
+              String normalDanger = '';
+              for (int i = 0; i < curLine.length; i++) {
+                List<String> words = curLine[i].split(':');
+                if (binarySearch(objectFromFun.dangerLabelsList, words[0]) !=
+                    -1) {
+                  danger = words[0];
+                } else if (binarySearch(
+                        objectFromFun.normalDangerList, words[0]) !=
+                    -1) {
+                  normalDanger = words[0];
+                } else {
+                  if (words[0].isNotEmpty && words[0] != 'Could not classify') {
+                    nonDanger = words[0];
+                  }
+                }
               }
-            }
-          }
-          if (danger.isNotEmpty) {
-            if (!detectedDangersList.any((pair) => pair.first == danger)) {
-              detectedDangersList.add(Pair(danger, DateTime.now()));
-              Vibration.vibrate(duration: 1000); // Vibrate for 1 second
-            }
-          }
-          if (normalDanger.isNotEmpty) {
-            if (!detectedNormalDangerList
-                .any((pair) => pair.first == normalDanger)) {
-              detectedNormalDangerList.add(Pair(normalDanger, DateTime.now()));
-              Vibration.vibrate(duration: 1000); // Vibrate for 1 second
-            }
-          }
-          if (nonDanger.isNotEmpty) {
-            if (!detectedNormalList.any((pair) => pair.first == nonDanger)) {
-              detectedNormalList.add(Pair(nonDanger, DateTime.now()));
-            }
-          }
-        });
-      });
-    } else {
-      detectedDangersList.clear();
-      detectedNormalDangerList.clear();
-      detectedNormalList.clear();
-      _subscription?.cancel();
-    }
+              if (danger.isNotEmpty) {
+                if (!detectedDangersList.any((pair) => pair.first == danger)) {
+                  detectedDangersList.add(Pair(danger, DateTime.now()));
+                  Vibration.vibrate(duration: 1000); // Vibrate for 1 second
+                }
+              }
+              if (normalDanger.isNotEmpty) {
+                if (!detectedNormalDangerList
+                    .any((pair) => pair.first == normalDanger)) {
+                  detectedNormalDangerList
+                      .add(Pair(normalDanger, DateTime.now()));
+                  Vibration.vibrate(duration: 1000); // Vibrate for 1 second
+                }
+              }
+              if (nonDanger.isNotEmpty) {
+                if (!detectedNormalList
+                    .any((pair) => pair.first == nonDanger)) {
+                  detectedNormalList.add(Pair(nonDanger, DateTime.now()));
+                }
+              }
+            });
+          });
+        } else {
+          setState(() {
+            start = !start;
+          });
+          detectedDangersList.clear();
+          detectedNormalDangerList.clear();
+          detectedNormalList.clear();
+          _subscription?.cancel();
+        }
+      } else {
+        detectedDangersList.clear();
+        detectedNormalDangerList.clear();
+        detectedNormalList.clear();
+        _subscription?.cancel();
+      }
+    });
   }
 
   @override
