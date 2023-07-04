@@ -1,14 +1,39 @@
 import 'package:flutter/material.dart';
 
+import '../../commonVariables/commonVariable.dart';
+
 class DisplayScreen extends StatefulWidget {
   const DisplayScreen({Key? key}) : super(key: key);
 
   @override
-  State<DisplayScreen> createState() => _DisplayScreenState();
+  State<DisplayScreen> createState() => DisplayScreenState();
 }
 
-class _DisplayScreenState extends State<DisplayScreen> {
+class DisplayScreenState extends State<DisplayScreen> {
   String isSelect = 'show';
+
+  void showTimePickerForStart() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      setState(() {
+        startTime = value!;
+      });
+    });
+  }
+
+  void showTimePickerForEnd() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      setState(() {
+        endTime = value!;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +127,11 @@ class _DisplayScreenState extends State<DisplayScreen> {
                                   child:
                                       Divider(thickness: 1, color: Colors.grey),
                                 ),
-                                ListTile(
+                                GestureDetector(
+                                  onTap: () {
+                                    showTimePickerForStart();
+                                  },
+                                  child: ListTile(
                                     title: Text(
                                       'Start',
                                       style: TextStyle(
@@ -111,30 +140,41 @@ class _DisplayScreenState extends State<DisplayScreen> {
                                         color: Colors.black,
                                       ),
                                     ),
-                                    trailing: Text('6:00 am',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                        ))),
+                                    trailing: Text(
+                                      startTime.format(context).toString(),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 Padding(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 15.0),
                                   child:
                                       Divider(thickness: 1, color: Colors.grey),
                                 ),
-                                ListTile(
-                                  title: Text(
-                                    'End',
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
+                                GestureDetector(
+                                  onTap: () {
+                                    showTimePickerForEnd();
+                                  },
+                                  child: ListTile(
+                                    title: Text(
+                                      'End',
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  trailing: Text('10:00 am',
+                                    trailing: Text(
+                                      endTime.format(context).toString(),
                                       style: TextStyle(
                                         fontSize: 14,
-                                      )),
-                                )
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                     ],
