@@ -7,3 +7,4 @@ bool textDisplay = true;
 bool dengerDisplay = true;
 bool normalDisplay = true;
 bool vibrationMood = true;
+bool start = true;
