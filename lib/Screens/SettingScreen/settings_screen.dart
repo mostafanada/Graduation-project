@@ -3,6 +3,7 @@ import 'package:createachannel/Screens/SettingScreen/setting_customize/customize
 import 'package:flutter/material.dart';
 
 import '../OutputScreen/outputScreen.dart';
+import '../commonVariables/commonVariable.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -168,10 +169,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CheckboxListTile(
-                            value: isEmogi,
+                            value: emojiDisplay,
                             onChanged: (value) {
                               setState(() {
-                                isEmogi = value ?? false;
+                                emojiDisplay = value!;
                               });
                             },
                             title: Text(
@@ -186,10 +187,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             activeColor: Color(0xFF8588C7),
                           ),
                           CheckboxListTile(
-                            value: isText,
+                            value: textDisplay,
                             onChanged: (value) {
                               setState(() {
-                                isText = value ?? false;
+                                textDisplay = value!;
                               });
                             },
                             title: Text(
@@ -248,10 +249,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CheckboxListTile(
-                            value: isDanger,
+                            value: dengerDisplay,
                             onChanged: (value) {
                               setState(() {
-                                isDanger = value ?? false;
+                                dengerDisplay = value!;
                               });
                             },
                             title: Text(
@@ -266,10 +267,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             activeColor: Color(0xFF8588C7),
                           ),
                           CheckboxListTile(
-                            value: isNormal,
+                            value: normalDisplay,
                             onChanged: (value) {
                               setState(() {
-                                isNormal = value ?? false;
+                                normalDisplay = value!;
                               });
                             },
                             title: Text(
@@ -347,9 +348,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 trailing: Checkbox(
-                  value: isAlert,
+                  value: vibrationMood,
                   onChanged: (value) {
-                    isAlert = value ?? false;
+                    vibrationMood = value!;
                     setState(() {});
                   },
                   checkColor: Colors.black,

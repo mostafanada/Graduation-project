@@ -4,8 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vibration/vibration.dart';
+import '../SettingScreen/settin_display/display_mode_screen.dart';
 import '../SettingScreen/settings_screen.dart';
 import '../about screen/aboutScreen.dart';
+import '../commonVariables/commonVariable.dart';
 import '../contactus/contactUsScreen.dart';
 import 'Serves/all_function.dart';
 
@@ -21,6 +23,7 @@ class _output extends State<output> {
   List<Pair<String, DateTime>> detectedNormalList = [];
   StreamSubscription? _subscription;
   attrbuties objectFromFun = attrbuties();
+
   @override
   void initState() {
     super.initState();
@@ -72,21 +75,23 @@ class _output extends State<output> {
       List<Widget> subCards = [];
       for (var x in detectedDangersList) {
         subCards.add(
-          Card(
-            elevation: 0.0,
-            shape: RoundedRectangleBorder(
-              side: BorderSide.none,
-            ),
-            color: Color(0xFFD9D9D9),
-            child: ListTile(
-              leading: Icon(Icons.star),
-              title: Text(
-                x.first,
-                style: TextStyle(color: Colors.red),
-              ),
-              trailing: Image.asset('assets/Alarm.png'),
-            ),
-          ),
+          (dengerDisplay)
+              ? Card(
+                  elevation: 0.0,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide.none,
+                  ),
+                  color: Color(0xFFD9D9D9),
+                  child: ListTile(
+                    leading: Icon((emojiDisplay) ? Icons.star : null),
+                    title: Text(
+                      (textDisplay) ? x.first : '',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    trailing: Image.asset('assets/Alarm.png'),
+                  ),
+                )
+              : Card(),
         );
       }
 
@@ -104,9 +109,9 @@ class _output extends State<output> {
             ),
             color: Color.fromRGBO(217, 217, 217, 1),
             child: ListTile(
-              leading: Icon(Icons.star),
+              leading: Icon((emojiDisplay) ? Icons.star : null),
               title: Text(
-                x.first,
+                (textDisplay) ? x.first : '',
                 style: TextStyle(color: Color.fromRGBO(72, 72, 82, 1)),
               ),
             ),
@@ -127,9 +132,9 @@ class _output extends State<output> {
             ),
             color: Color.fromRGBO(217, 217, 217, 1),
             child: ListTile(
-              leading: Icon(Icons.star),
+              leading: Icon((emojiDisplay) ? Icons.star : null),
               title: Text(
-                x.first,
+                (textDisplay) ? x.first : '',
                 style: TextStyle(color: Color.fromRGBO(72, 72, 82, 1)),
               ),
             ),

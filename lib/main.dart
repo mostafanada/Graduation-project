@@ -1,5 +1,8 @@
+import 'package:createachannel/Screens/OutputScreen/outputScreen.dart';
 import 'package:flutter/material.dart';
 
+import 'Screens/SettingScreen/settin_display/display_mode_screen.dart';
+import 'Screens/SettingScreen/settin_display/displayscreen.dart';
 import 'Screens/start/OnBoarding.dart';
 
 void main() {
@@ -15,7 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: OnBoarding(),
+      // home: OnBoarding(),
+      home: output(),
     );
   }
 }
