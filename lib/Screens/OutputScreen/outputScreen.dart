@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class _output extends State<output> {
   List<Pair<String, DateTime>> detectedDangersList = [];
   List<Pair<String, DateTime>> detectedNormalDangerList = [];
   List<Pair<String, DateTime>> detectedNormalList = [];
+  List<String> Score = [];
   StreamSubscription? _subscription;
 
   @override
@@ -84,7 +86,11 @@ class _output extends State<output> {
                   child: ListTile(
                     leading: Icon((emojiDisplay) ? Icons.star : null),
                     title: Text(
-                      (textDisplay) ? x.first : '',
+                      (textDisplay)
+                          ? x.first +
+                              "  " +
+                              dangerLabelsListArabic[x.first.split(': ')[0]]!
+                          : '',
                       style: TextStyle(color: Colors.red),
                     ),
                     trailing: Image.asset('assets/Alarm.png'),
@@ -133,7 +139,11 @@ class _output extends State<output> {
             child: ListTile(
               leading: Icon((emojiDisplay) ? Icons.star : null),
               title: Text(
-                (textDisplay) ? x.first : '',
+                (textDisplay)
+                    ? x.first +
+                        "  " +
+                        normalDangerListArabic[x.first.split(': ')[0]]!
+                    : '',
                 style: TextStyle(color: Color.fromRGBO(72, 72, 82, 1)),
               ),
             ),
@@ -185,24 +195,24 @@ class _output extends State<output> {
                       ),
                     )
                   : SizedBox(height: 0),
-              detectedNormalList.length > 0
-                  ? Card(
-                      margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
-                      color: Color.fromRGBO(217, 217, 217, 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22.0),
-                      ),
-                      child: ListTile(
-                        subtitle: Container(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: generateNormalLabels(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : SizedBox(height: 0),
+              // detectedNormalList.length > 0
+              //     ? Card(
+              //         margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
+              //         color: Color.fromRGBO(217, 217, 217, 1),
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(22.0),
+              //         ),
+              //         child: ListTile(
+              //           subtitle: Container(
+              //             child: SingleChildScrollView(
+              //               child: Column(
+              //                 children: generateNormalLabels(),
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       )
+              //     : SizedBox(height: 0),
             ],
           ),
         ));
@@ -223,29 +233,34 @@ class _output extends State<output> {
             List<String> words = curLine[i].split(':');
             if (binarySearch(dangerLabelsList, words[0]) != -1) {
               danger = words[0];
+              danger += ": " + words[1];
             } else if (binarySearch(normalDangerList, words[0]) != -1) {
               normalDanger = words[0];
+              normalDanger += ": " + words[1];
             } else {
               if (words[0].isNotEmpty && words[0] != 'Could not classify') {
                 nonDanger = words[0];
+                nonDanger += ": " + words[1];
               }
             }
           }
           if (danger.isNotEmpty) {
-            if (!detectedDangersList.any((pair) => pair.first == danger)) {
+            if (!detectedDangersList.any(
+                (pair) => pair.first.split(": ")[0] == danger.split(": ")[0])) {
               detectedDangersList.add(Pair(danger, DateTime.now()));
               Vibration.vibrate(duration: 1000); // Vibrate for 1 second
             }
           }
           if (normalDanger.isNotEmpty) {
-            if (!detectedNormalDangerList
-                .any((pair) => pair.first == normalDanger)) {
+            if (!detectedNormalDangerList.any((pair) =>
+                pair.first.split(": ")[0] == normalDanger.split(": ")[0])) {
               detectedNormalDangerList.add(Pair(normalDanger, DateTime.now()));
               Vibration.vibrate(duration: 1000); // Vibrate for 1 second
             }
           }
           if (nonDanger.isNotEmpty) {
-            if (!detectedNormalList.any((pair) => pair.first == nonDanger)) {
+            if (!detectedNormalList.any((pair) =>
+                pair.first.split(": ")[0] == nonDanger.split(": ")[0])) {
               detectedNormalList.add(Pair(nonDanger, DateTime.now()));
             }
           }

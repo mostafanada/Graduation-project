@@ -62,7 +62,8 @@ flutter:
     - assets/NormalList.txt
     - assets/TopImage.png
     - assets/Alarm.png
-    - assets/images/
+    - assets/icon_start.png
+    - assets/icon_stop.png
 
 
   # The following line ensures that the Material Icons font is

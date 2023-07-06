@@ -1,30 +1,12 @@
-Cat
-Run
-Shuffle
-Walk, footsteps
-Shout
-Bellow
-Yell
-Children shouting
-Screaming
-Crying, sobbing
-Baby cry, infant cry
-Whimper
-Wail, moan
-Hubbub, speech noise, speech babble
-Tubular bells
-Bell
-Jingle bell
-Chime
-Change ringing (campanology)
-Door
-Doorbell
-Tap
-Knock
-Telephone
-Telephone bell ringing
-Ringtone
-Dial tone
-Alarm clock
-Squeal
-Jingle, tinkle
+Liquid # سائل
+Speech # كلام
+Water # ماء
+Tools # ادوات للاعمال
+Clock # ساعه
+Water tap, faucet # صنبور مياه
+Sink (filling or washing) # مياه تملئ شئ
+Engine # محرك اله
+Cat # قطه
+Door # باب
+Bell # جرس
+Knock # تخبيط علي الباب
