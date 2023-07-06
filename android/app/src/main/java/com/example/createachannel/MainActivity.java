@@ -32,7 +32,7 @@ public class MainActivity extends FlutterActivity {
     public final static int REQUEST_RECORD_AUDIO = 2033;
 
     String modelPath = "lite-model_yamnet_classification_tflite_1.tflite";
-    float probabilityThreshold = 0.7f;
+    float probabilityThreshold = 0.3f;
     AudioClassifier classifier;
     TensorAudio tensor;
     AudioRecord record;
