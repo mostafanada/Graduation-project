@@ -220,7 +220,7 @@ class _output extends State<output> {
   void isWithinSleepModeTime() {
     DateTime now = DateTime.now();
     TimeOfDay currentTime = TimeOfDay.fromDateTime(now);
-    bool isSleepMood = currentTime.hour >= startTime.hour &&
+    isSleepMood = currentTime.hour >= startTime.hour &&
         currentTime.hour <= endTime.hour &&
         currentTime.minute >= startTime.minute &&
         currentTime.minute <= endTime.minute;
@@ -238,6 +238,7 @@ class _output extends State<output> {
     detectedNormalDangerList.clear();
     detectedNormalList.clear();
     subscription?.cancel();
+    Vibration.cancel();
     setState(() {
       buttonClicked = false;
     });
@@ -406,6 +407,7 @@ class _output extends State<output> {
                         setState(() {
                           buttonClicked = !buttonClicked;
                           isRecording = !isRecording;
+                          if (!buttonClicked) stopRecording();
                         });
                       },
                       style: ElevatedButton.styleFrom(
