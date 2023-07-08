@@ -1,10 +1,23 @@
-import 'package:createachannel/Screens/OutputScreen/outputScreen.dart';
-import 'package:createachannel/Screens/contactus/sendemail/sendEmailScreen.dart';
+ import 'package:createachannel/Screens/OutputScreen/outputScreen.dart';
+// import 'package:createachannel/Screens/contactus/sendemail/sendEmailScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ContactUsScreen extends StatelessWidget {
+class ContactUsScreen extends StatefulWidget {
+
+
+  @override
+  _ContactUsScreen createState() => _ContactUsScreen();
+}
+
+class _ContactUsScreen extends State<ContactUsScreen> {
+
+
+
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -22,7 +35,9 @@ class ContactUsScreen extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            Row(
+            InkWell(
+             onTap: () {calling();},
+              child:Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(
@@ -48,11 +63,15 @@ class ContactUsScreen extends StatelessWidget {
                   ],
                 )
               ],
-            ),
+            ),),
             SizedBox(
               height: 20,
             ),
-            Row(
+            InkWell(
+             onTap: () {
+               launchUrl();
+             },
+             child:Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(
@@ -78,11 +97,13 @@ class ContactUsScreen extends StatelessWidget {
                   ],
                 )
               ],
-            ),
+            ),),
             SizedBox(
               height: 20,
             ),
-            Row(
+            InkWell(
+              onTap: () {},
+              child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(
@@ -108,11 +129,13 @@ class ContactUsScreen extends StatelessWidget {
                   ],
                 )
               ],
-            ),
+            ),),
             SizedBox(
               height: 20,
             ),
-            Row(
+            InkWell(
+              onTap: () {email();},
+              child:Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(
@@ -138,7 +161,7 @@ class ContactUsScreen extends StatelessWidget {
                   ],
                 )
               ],
-            ),
+            ),),
             Spacer(),
             Row(
               children: [
@@ -160,34 +183,34 @@ class ContactUsScreen extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => sendEmailScreen(),
-                        ));
-                  },
-                  child: Container(
-                    height: 45,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.indigoAccent,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Next",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                // GestureDetector(
+                //   onTap: () {
+                //     // Navigator.pushReplacement(
+                //     //     context,
+                //     //     MaterialPageRoute(
+                //     //       builder: (context) => sendEmailScreen(),
+                //     //     ));
+                //   },
+                //   child: Container(
+                //     height: 45,
+                //     width: 100,
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(25),
+                //       color: Colors.indigoAccent,
+                //     ),
+                //     // child: Center(
+                //     //   child: Text(
+                //     //     "Next",
+                //     //     textAlign: TextAlign.center,
+                //     //     style: TextStyle(
+                //     //       fontSize: 25,
+                //     //       fontWeight: FontWeight.bold,
+                //     //       color: Colors.white,
+                //     //     ),
+                //     //   ),
+                //     // ),
+                //   ),
+                // )
               ],
             )
           ],
@@ -195,4 +218,34 @@ class ContactUsScreen extends StatelessWidget {
       ),
     );
   }
+  calling()async{
+    const url = 'tel:+218919247183';
+    if( await canLaunch(url)){
+      await launch(url);
+    }else{
+      throw 'Could not launch $url';
+    }
+  }
+  email()async{
+    final Uri _emailurl = Uri(
+        scheme: 'mailto',
+        path: 'deafapporganization@gmail.com',
+        queryParameters: { 'subject': 'Hello' }
+    );
+
+    if( await canLaunch(_emailurl.toString())){
+      await launch(_emailurl.toString());
+    }else{
+      throw 'Could not launch $_emailurl';
+    }
+  }
+  void launchUrl() async {
+    const url = 'https://goo.gl/maps/MEEEdDY5DG7TzfUU9';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
 }
