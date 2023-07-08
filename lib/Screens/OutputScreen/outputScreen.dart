@@ -18,20 +18,20 @@ class output extends StatefulWidget {
 }
 
 class _output extends State<output> {
-  bool _buttonClicked = false;
   List<Pair<String, DateTime>> detectedDangersList = [];
   List<Pair<String, DateTime>> detectedNormalDangerList = [];
   List<Pair<String, DateTime>> detectedNormalList = [];
   List<String> Score = [];
-  StreamSubscription? _subscription;
+  StreamSubscription? subscription;
 
   @override
   void initState() {
     super.initState();
     dangerListFun();
     normalListFun();
-    // Remove dangers labels after 5 sec
     Timer.periodic(Duration(seconds: 1), (timer) {
+      print(buttonClicked);
+      isWithinSleepModeTime();
       detectedDangersList.removeWhere((label) =>
           DateTime.now().difference(label.second).inMilliseconds >= 5000);
       detectedNormalDangerList.removeWhere((label) =>
@@ -39,7 +39,6 @@ class _output extends State<output> {
       detectedNormalList.removeWhere((label) =>
           DateTime.now().difference(label.second).inMilliseconds >= 5000);
     });
-    // Initialize the EventChannel
   }
 
   Expanded greetingText() {
@@ -218,79 +217,102 @@ class _output extends State<output> {
         ));
   }
 
-  void _toggleListener(bool start) {
-    if (start) {
-      final channel = EventChannel('example.com/channel');
-
-      _subscription = channel.receiveBroadcastStream().listen((event) {
-        setState(() {
-          String splitedString = event;
-          List<String> curLine = splitedString.split('\n');
-          String danger = '';
-          String nonDanger = '';
-          String normalDanger = '';
-          for (int i = 0; i < curLine.length; i++) {
-            List<String> words = curLine[i].split(':');
-            if (binarySearch(dangerLabelsList, words[0]) != -1) {
-              danger = words[0];
-              danger += ": " + words[1];
-            } else if (binarySearch(normalDangerList, words[0]) != -1) {
-              normalDanger = words[0];
-              normalDanger += ": " + words[1];
-            } else {
-              if (words[0].isNotEmpty && words[0] != 'Could not classify') {
-                nonDanger = words[0];
-                nonDanger += ": " + words[1];
-              }
-            }
-          }
-          if (danger.isNotEmpty) {
-            if (!detectedDangersList.any(
-                (pair) => pair.first.split(": ")[0] == danger.split(": ")[0])) {
-              detectedDangersList.add(Pair(danger, DateTime.now()));
-              Vibration.vibrate(duration: 1000); // Vibrate for 1 second
-            }
-          }
-          if (normalDanger.isNotEmpty) {
-            if (!detectedNormalDangerList.any((pair) =>
-                pair.first.split(": ")[0] == normalDanger.split(": ")[0])) {
-              detectedNormalDangerList.add(Pair(normalDanger, DateTime.now()));
-              Vibration.vibrate(duration: 1000); // Vibrate for 1 second
-            }
-          }
-          if (nonDanger.isNotEmpty) {
-            if (!detectedNormalList.any((pair) =>
-                pair.first.split(": ")[0] == nonDanger.split(": ")[0])) {
-              detectedNormalList.add(Pair(nonDanger, DateTime.now()));
-            }
-          }
-        });
-      });
+  void isWithinSleepModeTime() {
+    DateTime now = DateTime.now();
+    TimeOfDay currentTime = TimeOfDay.fromDateTime(now);
+    isSleepMood = currentTime.hour >= startTime.hour &&
+        currentTime.hour <= endTime.hour &&
+        currentTime.minute >= startTime.minute &&
+        currentTime.minute <= endTime.minute;
+    if (buttonClicked && isSleepMood) {
+      stopRecording();
+    } else if ((!buttonClicked || buttonClicked) && !isSleepMood) {
+      if (isRecording) startRecording();
     } else {
-      detectedDangersList.clear();
-      detectedNormalDangerList.clear();
-      detectedNormalList.clear();
-      _subscription?.cancel();
+      stopRecording();
     }
+  }
+
+  void stopRecording() {
+    detectedDangersList.clear();
+    detectedNormalDangerList.clear();
+    detectedNormalList.clear();
+    subscription?.cancel();
+    Vibration.cancel();
+    setState(() {
+      buttonClicked = false;
+    });
+  }
+
+  void startRecording() {
+    setState(() {
+      buttonClicked = true;
+    });
+
+    final channel = EventChannel('example.com/channel');
+
+    subscription = channel.receiveBroadcastStream().listen((event) {
+      setState(() {
+        String splitedString = event;
+        List<String> curLine = splitedString.split('\n');
+        String danger = '';
+        String nonDanger = '';
+        String normalDanger = '';
+        for (int i = 0; i < curLine.length; i++) {
+          List<String> words = curLine[i].split(':');
+          if (binarySearch(dangerLabelsList, words[0]) != -1) {
+            danger = words[0];
+            danger += ": " + words[1];
+          } else if (binarySearch(normalDangerList, words[0]) != -1) {
+            normalDanger = words[0];
+            normalDanger += ": " + words[1];
+          } else {
+            if (words[0].isNotEmpty && words[0] != 'Could not classify') {
+              nonDanger = words[0];
+              nonDanger += ": " + words[1];
+            }
+          }
+        }
+        if (danger.isNotEmpty) {
+          if (!detectedDangersList.any(
+              (pair) => pair.first.split(": ")[0] == danger.split(": ")[0])) {
+            detectedDangersList.add(Pair(danger, DateTime.now()));
+            (vibrationMood) ? Vibration.vibrate(duration: 1000) : null;
+          }
+        }
+        if (normalDanger.isNotEmpty) {
+          if (!detectedNormalDangerList.any((pair) =>
+              pair.first.split(": ")[0] == normalDanger.split(": ")[0])) {
+            detectedNormalDangerList.add(Pair(normalDanger, DateTime.now()));
+            (vibrationMood) ? Vibration.vibrate(duration: 1000) : null;
+          }
+        }
+        if (nonDanger.isNotEmpty) {
+          if (!detectedNormalList.any((pair) =>
+              pair.first.split(": ")[0] == nonDanger.split(": ")[0])) {
+            detectedNormalList.add(Pair(nonDanger, DateTime.now()));
+          }
+        }
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-        dividerColor: Colors.black, // Set the color of ListTile dividers here
+        dividerColor: Colors.black,
       ),
       child: MaterialApp(
         home: Scaffold(
           appBar: AppBar(
-            backgroundColor:
-                Colors.white, // Set the background color of AppBar here
-            elevation: 0.0, // Remove shadow and border of AppBar here
+            backgroundColor: Colors.white,
+            elevation: 0.0,
             leading: Builder(
               builder: (context) => IconButton(
                 icon: Icon(
                   Icons.menu,
-                  color: Colors.black, // Set the color of the drawer icon here
+                  color: Colors.black,
                 ),
                 onPressed: () => Scaffold.of(context).openDrawer(),
               ),
@@ -305,7 +327,6 @@ class _output extends State<output> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 23.0),
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
@@ -363,7 +384,7 @@ class _output extends State<output> {
             ),
           ),
           body: Container(
-            color: Colors.white, // Set the background color here
+            color: Colors.white,
             child: Column(
               children: <Widget>[
                 Expanded(
@@ -375,36 +396,33 @@ class _output extends State<output> {
                     ),
                   ),
                 ),
-                _buttonClicked ? OutputList(context) : greetingText(),
+                buttonClicked ? OutputList(context) : greetingText(),
                 Expanded(
                   flex: 2,
                   child: Container(
                     color: Colors.transparent,
-                    margin: EdgeInsets.only(
-                        bottom: 16), // Set the bottom margin here
+                    margin: EdgeInsets.only(bottom: 16),
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          _buttonClicked = !_buttonClicked;
-                          _toggleListener(_buttonClicked);
+                          buttonClicked = !buttonClicked;
+                          isRecording = !isRecording;
+                          if (!buttonClicked) stopRecording();
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors
-                            .white, // Set the background color to transparent here
-                        onSurface: Colors
-                            .white, // Set the hover and click color to transparent here
-                        elevation: 0.0, // Remove shadow here
-                        side: BorderSide.none, // Remove border here
+                        primary: Colors.white,
+                        onSurface: Colors.white,
+                        elevation: 0.0,
+                        side: BorderSide.none,
                       ),
                       child: CircleAvatar(
-                        backgroundColor: Colors
-                            .white, // Set the background color of the circle here
-                        radius: 35, // Set the size of the circle here
+                        backgroundColor: Colors.white,
+                        radius: 35,
                         child: Image.asset(
-                          !_buttonClicked
+                          !buttonClicked
                               ? 'assets/icon_start.png'
-                              : 'assets/icon_stop.png', // Set the custom icon here
+                              : 'assets/icon_stop.png',
                         ),
                       ),
                     ),

@@ -7,4 +7,6 @@ bool textDisplay = true;
 bool dengerDisplay = true;
 bool normalDisplay = true;
 bool vibrationMood = true;
-bool start = true;
+bool buttonClicked = false;
+bool isRecording = false;
+bool isSleepMood = false;
