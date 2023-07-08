@@ -22,7 +22,7 @@ class _output extends State<output> {
   List<Pair<String, DateTime>> detectedNormalDangerList = [];
   List<Pair<String, DateTime>> detectedNormalList = [];
   List<String> Score = [];
-  StreamSubscription? _subscription;
+  StreamSubscription? subscription;
 
   @override
   void initState() {
@@ -30,6 +30,7 @@ class _output extends State<output> {
     dangerListFun();
     normalListFun();
     Timer.periodic(Duration(seconds: 1), (timer) {
+      print(buttonClicked);
       isWithinSleepModeTime();
       detectedDangersList.removeWhere((label) =>
           DateTime.now().difference(label.second).inMilliseconds >= 5000);
@@ -219,23 +220,37 @@ class _output extends State<output> {
   void isWithinSleepModeTime() {
     DateTime now = DateTime.now();
     TimeOfDay currentTime = TimeOfDay.fromDateTime(now);
-    if (currentTime.hour >= startTime.hour &&
+    bool isSleepMood = currentTime.hour >= startTime.hour &&
         currentTime.hour <= endTime.hour &&
         currentTime.minute >= startTime.minute &&
-        currentTime.minute <= endTime.minute) {
+        currentTime.minute <= endTime.minute;
+    if (buttonClicked && isSleepMood) {
       stopRecording();
+    } else if ((!buttonClicked || buttonClicked) && !isSleepMood) {
+      if (isRecording) startRecording();
     } else {
-      if (buttonClicked) startRecording();
+      stopRecording();
     }
+  }
+
+  void stopRecording() {
+    detectedDangersList.clear();
+    detectedNormalDangerList.clear();
+    detectedNormalList.clear();
+    subscription?.cancel();
+    setState(() {
+      buttonClicked = false;
+    });
   }
 
   void startRecording() {
     setState(() {
       buttonClicked = true;
     });
+
     final channel = EventChannel('example.com/channel');
 
-    _subscription = channel.receiveBroadcastStream().listen((event) {
+    subscription = channel.receiveBroadcastStream().listen((event) {
       setState(() {
         String splitedString = event;
         List<String> curLine = splitedString.split('\n');
@@ -261,14 +276,14 @@ class _output extends State<output> {
           if (!detectedDangersList.any(
               (pair) => pair.first.split(": ")[0] == danger.split(": ")[0])) {
             detectedDangersList.add(Pair(danger, DateTime.now()));
-            Vibration.vibrate(duration: 1000); // Vibrate for 1 second
+            (vibrationMood) ? Vibration.vibrate(duration: 1000) : null;
           }
         }
         if (normalDanger.isNotEmpty) {
           if (!detectedNormalDangerList.any((pair) =>
               pair.first.split(": ")[0] == normalDanger.split(": ")[0])) {
             detectedNormalDangerList.add(Pair(normalDanger, DateTime.now()));
-            Vibration.vibrate(duration: 1000); // Vibrate for 1 second
+            (vibrationMood) ? Vibration.vibrate(duration: 1000) : null;
           }
         }
         if (nonDanger.isNotEmpty) {
@@ -281,33 +296,22 @@ class _output extends State<output> {
     });
   }
 
-  void stopRecording() {
-    setState(() {
-      buttonClicked = false;
-    });
-    detectedDangersList.clear();
-    detectedNormalDangerList.clear();
-    detectedNormalList.clear();
-    _subscription?.cancel();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-        dividerColor: Colors.black, // Set the color of ListTile dividers here
+        dividerColor: Colors.black,
       ),
       child: MaterialApp(
         home: Scaffold(
           appBar: AppBar(
-            backgroundColor:
-                Colors.white, // Set the background color of AppBar here
-            elevation: 0.0, // Remove shadow and border of AppBar here
+            backgroundColor: Colors.white,
+            elevation: 0.0,
             leading: Builder(
               builder: (context) => IconButton(
                 icon: Icon(
                   Icons.menu,
-                  color: Colors.black, // Set the color of the drawer icon here
+                  color: Colors.black,
                 ),
                 onPressed: () => Scaffold.of(context).openDrawer(),
               ),
@@ -322,7 +326,6 @@ class _output extends State<output> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 23.0),
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
@@ -402,6 +405,7 @@ class _output extends State<output> {
                       onPressed: () {
                         setState(() {
                           buttonClicked = !buttonClicked;
+                          isRecording = !isRecording;
                         });
                       },
                       style: ElevatedButton.styleFrom(
