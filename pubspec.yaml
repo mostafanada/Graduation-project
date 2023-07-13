@@ -64,7 +64,16 @@ flutter:
     - assets/TopImage.png
     - assets/Alarm.png
     - assets/icon_start.png
+    - assets/images/Clip1.png
     - assets/icon_stop.png
+    - assets/images/Frame.png
+    - assets/images/photo.jpg
+    - assets/images/Group 2.png
+    - assets/images/photo.jpg
+    - assets/images/Clip2.png
+    - assets/splash.jpg
+    - assets/Splash2.png
+
 
 
   # The following line ensures that the Material Icons font is
