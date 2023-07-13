@@ -19,12 +19,12 @@ class _OnBoardingState extends State<OnBoarding> {
   List list = [
     BuildPage(
       image2: Image.asset(
-        'assets/images/Clip path group (1).png',
+        'assets/images/Clip1.png',
         width: 196,
         height: 326,
         alignment: Alignment.topLeft,
       ),
-      image: "assets/images/Frame 15.png",
+      image: "assets/images/Frame.png",
       text1: "We detect",
       fontWeight1: FontWeight.w700,
       text2: 'the most important',
@@ -56,7 +56,7 @@ class _OnBoardingState extends State<OnBoarding> {
         height: 326,
         alignment: Alignment.topLeft,
       ),
-      image: 'assets/images/Clip path group (2).png',
+      image: 'assets/images/Clip2.png',
       text1: "In a queue and",
       text2: "want's to get",
       fontWeight2: FontWeight.w700,

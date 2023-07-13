@@ -1,8 +1,9 @@
-import 'package:createachannel/Screens/OutputScreen/outputScreen.dart';
+import 'package:createachannel/Screens/OnBoarding/login.dart';
 import 'package:flutter/material.dart';
 
-import 'Screens/SettingScreen/settin_display/display_mode_screen.dart';
-import 'Screens/SettingScreen/settin_display/displayscreen.dart';
+import 'Screens/OnBoarding/OnBoarding.dart';
+import 'Screens/OnBoarding/Splash.dart';
+
 // import 'Screens/start/OnBoarding.dart';
 
 void main() {
@@ -15,11 +16,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      // home: OnBoarding(),
-      home: output(),
+      home: Splash(),
+      //  home: output(),
     );
   }
 }

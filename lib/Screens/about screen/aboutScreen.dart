@@ -14,7 +14,7 @@ class aboutScreen extends StatelessWidget {
         body: Align(
           alignment: Alignment.topCenter,
           child: Padding(
-            padding: EdgeInsets.only(top: 90),
+            padding: const EdgeInsets.only(top: 90),
             child: Column(
               children: [
                 ListTile(
@@ -42,7 +42,7 @@ class aboutScreen extends StatelessWidget {
                 ),
                 ListTile(
                   title: Column(
-                    children: [
+                    children: const [
                       Text(
                         'sound recognition platform',
                         style: TextStyle(
