@@ -8,6 +8,7 @@ import 'BuildPage.dart';
 import 'login.dart';
 
 class OnBoarding extends StatefulWidget {
+  
   const OnBoarding({Key? key}) : super(key: key);
   @override
   State<OnBoarding> createState() => _OnBoardingState();
