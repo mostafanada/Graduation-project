@@ -75,6 +75,7 @@ class _SplashState extends State<Splash> {
                       textStyle: TextStyle(
                     color: Color(0xff676875),
                     fontSize: 26,
+                        
                   )),
                 ),
                 Text("Always",

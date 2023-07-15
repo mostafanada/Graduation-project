@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class BuildPage extends StatelessWidget {
   BuildPage(
+    
       {this.text1,
       this.image2,
       this.text2,
