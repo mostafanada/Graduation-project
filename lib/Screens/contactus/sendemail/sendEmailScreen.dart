@@ -7,6 +7,7 @@ class sendEmailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        
         leading: GestureDetector(
             onTap: () {
               Navigator.pushReplacement(
