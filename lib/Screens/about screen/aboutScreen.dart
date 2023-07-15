@@ -9,6 +9,7 @@ class aboutScreen extends StatelessWidget {
         brightness: Brightness.light,
         primaryColor: Colors.amber,
       ),
+      
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Align(
