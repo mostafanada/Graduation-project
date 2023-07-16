@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 import 'Screens/OnBoarding/OnBoarding.dart';
 import 'Screens/OnBoarding/Splash.dart';
+import 'foreGroundService/foregroundService.dart';
 
 // import 'Screens/start/OnBoarding.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeService();
   runApp(const MyApp());
-  
 }
 
 class MyApp extends StatelessWidget {
