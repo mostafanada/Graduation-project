@@ -74,7 +74,31 @@ flutter:
     - assets/images/Clip2.png
     - assets/splash.jpg
     - assets/Splash2.png
-
+    - assets/icons/Ambulance (siren).png
+    - assets/icons/Baby cry, infant cry.png
+    - assets/icons/Bell.png
+    - assets/icons/Boom.png
+    - assets/icons/Canidae, dogs, wolves.png
+    - assets/icons/Car.png
+    - assets/icons/Cat.png
+    - assets/icons/Chainsaw.png
+    - assets/icons/Chink, clink.png
+    - assets/icons/Clock.png
+    - assets/icons/Dog.png
+    - assets/icons/Dog.png
+    - assets/icons/Doorbell.png
+    - assets/icons/Fire engine, fire truck (siren).png
+    - assets/icons/Glass.png
+    - assets/icons/Gunshot, gunfire.png
+    - assets/icons/Livestock, farm animals, working animals.png
+    - assets/icons/Mechanisms.png
+    - assets/icons/Police car (siren).png
+    - assets/icons/Snake.png
+    - assets/icons/Speech.png
+    - assets/icons/Vehicle.png
+    - assets/icons/Water tap, faucet.png
+    - assets/icons/Water.png
+    - assets/icons/Whistle.png
 
 
   # The following line ensures that the Material Icons font is
