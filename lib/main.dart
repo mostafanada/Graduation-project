@@ -1,15 +1,17 @@
-import 'package:createachannel/Screens/OnBoarding/login.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import 'Screens/OnBoarding/OnBoarding.dart';
 import 'Screens/OnBoarding/Splash.dart';
-import 'foreGroundService/foregroundService.dart';
-
-// import 'Screens/start/OnBoarding.dart';
+import 'notifications/displaying_notifications.dart';
+import 'notifications/notifications_settings.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeService();
+  const channel = EventChannel('example.com/channel');
+  await notificationServiceInitialization();
+  channel.receiveBroadcastStream().listen(showNotification);
   runApp(const MyApp());
 }
 

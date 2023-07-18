@@ -6,7 +6,16 @@ Clock # ساعه
 Water tap, faucet # صنبور مياه
 Sink (filling or washing) # مياه تملئ شئ
 Engine # محرك اله
-Cat # قطه
 Door # باب
 Bell # جرس
 Knock # تخبيط علي الباب
+Clapping # تصفيق
+Music # موسيقى
+Doorbell # الجرس
+Knock # طرق
+Hair dryer # مجفف شعر
+Vacuum cleaner # مكنسة كهربائية
+Computer keyboard # لوحة مفاتيح كمبيوتر
+Air conditioning # تكيف
+Television # التلفاز
+Radio # مذياع
