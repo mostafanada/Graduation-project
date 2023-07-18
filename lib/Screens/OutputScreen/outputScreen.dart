@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:vibration/vibration.dart';
 import '../SettingScreen/settin_display/display_mode_screen.dart';
 import '../SettingScreen/settings_screen.dart';
@@ -18,9 +19,6 @@ class output extends StatefulWidget {
 }
 
 class _output extends State<output> {
-  List<Pair<String, DateTime>> detectedDangersList = [];
-  List<Pair<String, DateTime>> detectedNormalDangerList = [];
-  List<Pair<String, DateTime>> detectedNormalList = [];
   List<String> Score = [];
 
   StreamSubscription? subscription;
@@ -240,6 +238,7 @@ class _output extends State<output> {
         if (danger.isNotEmpty) {
           if (!detectedDangersList.any((pair) => pair.first == danger)) {
             detectedDangersList.add(Pair(danger, DateTime.now()));
+            // print(detectedDangersList.last.first);
             (vibrationMood) ? Vibration.vibrate(duration: 1000) : null;
           }
         }
@@ -366,10 +365,16 @@ class _output extends State<output> {
                     margin: EdgeInsets.only(bottom: 16),
                     child: ElevatedButton(
                       onPressed: () {
-                        setState(() {
+                        setState(() async {
                           buttonClicked = !buttonClicked;
                           isRecording = !isRecording;
                           if (!buttonClicked) stopRecording();
+                          final service = FlutterBackgroundService();
+                          if (!buttonClicked) {
+                            service.invoke("stopService");
+                          } else {
+                            service.startService();
+                          }
                         });
                       },
                       style: ElevatedButton.styleFrom(

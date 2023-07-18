@@ -1,4 +1,7 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
+import '../OutputScreen/Serves/all_function.dart';
 
 TimeOfDay startTime = TimeOfDay(hour: 8, minute: 30);
 TimeOfDay endTime = TimeOfDay(hour: 8, minute: 30);
@@ -10,3 +13,8 @@ bool vibrationMood = true;
 bool buttonClicked = false;
 bool isRecording = false;
 bool isSleepMood = false;
+List<Pair<String, DateTime>> detectedDangersList = [
+  Pair("dsada", DateTime.now())
+];
+List<Pair<String, DateTime>> detectedNormalDangerList = [];
+List<Pair<String, DateTime>> detectedNormalList = [];
