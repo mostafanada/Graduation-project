@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:vibration/vibration.dart';
 import '../../SettingScreen/settin_display/display_mode_screen.dart';
 import '../../SettingScreen/settings_screen.dart';
@@ -18,10 +19,8 @@ class output extends StatefulWidget {
 }
 
 class _output extends State<output> {
-  List<Pair<String, DateTime>> detectedDangersList = [];
-  List<Pair<String, DateTime>> detectedNormalDangerList = [];
-  List<Pair<String, DateTime>> detectedNormalList = [];
   List<String> Score = [];
+
   StreamSubscription? subscription;
 
   @override
@@ -30,7 +29,6 @@ class _output extends State<output> {
     dangerListFun();
     normalListFun();
     Timer.periodic(Duration(seconds: 1), (timer) {
-      print(buttonClicked);
       isWithinSleepModeTime();
       detectedDangersList.removeWhere((label) =>
           DateTime.now().difference(label.second).inMilliseconds >= 5000);
@@ -83,7 +81,11 @@ class _output extends State<output> {
                   ),
                   color: Color(0xFFD9D9D9),
                   child: ListTile(
-                    leading: Icon((emojiDisplay) ? Icons.star : null),
+                    leading: emojiDisplay
+                        ? iconLabels.containsKey(x.first)
+                            ? Image.asset(iconLabels[x.first]!)
+                            : Icon(Icons.star)
+                        : null,
                     title: Text(
                       (textDisplay)
                           ? x.first +
@@ -102,29 +104,6 @@ class _output extends State<output> {
       return subCards;
     }
 
-    List<Widget> generateNormalLabels() {
-      List<Widget> subCards = [];
-      for (var x in detectedNormalList) {
-        subCards.add(
-          Card(
-            elevation: 0.0,
-            shape: RoundedRectangleBorder(
-              side: BorderSide.none,
-            ),
-            color: Color.fromRGBO(217, 217, 217, 1),
-            child: ListTile(
-              leading: Icon((emojiDisplay) ? Icons.star : null),
-              title: Text(
-                (textDisplay) ? x.first : '',
-                style: TextStyle(color: Color.fromRGBO(72, 72, 82, 1)),
-              ),
-            ),
-          ),
-        );
-      }
-      return subCards;
-    }
-
     List<Widget> generatedNormalDangerLabels() {
       List<Widget> subCards = [];
       for (var x in detectedNormalDangerList) {
@@ -136,7 +115,11 @@ class _output extends State<output> {
             ),
             color: Color.fromRGBO(217, 217, 217, 1),
             child: ListTile(
-              leading: Icon((emojiDisplay) ? Icons.star : null),
+              leading: emojiDisplay
+                  ? iconLabels.containsKey(x.first)
+                      ? Image.asset(iconLabels[x.first]!)
+                      : Icon(Icons.star)
+                  : null,
               title: Text(
                 (textDisplay)
                     ? x.first +
@@ -194,24 +177,6 @@ class _output extends State<output> {
                       ),
                     )
                   : SizedBox(height: 0),
-              // detectedNormalList.length > 0
-              //     ? Card(
-              //         margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
-              //         color: Color.fromRGBO(217, 217, 217, 1),
-              //         shape: RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.circular(22.0),
-              //         ),
-              //         child: ListTile(
-              //           subtitle: Container(
-              //             child: SingleChildScrollView(
-              //               child: Column(
-              //                 children: generateNormalLabels(),
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       )
-              //     : SizedBox(height: 0),
             ],
           ),
         ));
@@ -262,34 +227,30 @@ class _output extends State<output> {
           List<String> words = curLine[i].split(':');
           if (binarySearch(dangerLabelsList, words[0]) != -1) {
             danger = words[0];
-            danger += ": " + words[1];
           } else if (binarySearch(normalDangerList, words[0]) != -1) {
             normalDanger = words[0];
-            normalDanger += ": " + words[1];
           } else {
             if (words[0].isNotEmpty && words[0] != 'Could not classify') {
               nonDanger = words[0];
-              nonDanger += ": " + words[1];
             }
           }
         }
         if (danger.isNotEmpty) {
-          if (!detectedDangersList.any(
-              (pair) => pair.first.split(": ")[0] == danger.split(": ")[0])) {
+          if (!detectedDangersList.any((pair) => pair.first == danger)) {
             detectedDangersList.add(Pair(danger, DateTime.now()));
+            // print(detectedDangersList.last.first);
             (vibrationMood) ? Vibration.vibrate(duration: 1000) : null;
           }
         }
         if (normalDanger.isNotEmpty) {
-          if (!detectedNormalDangerList.any((pair) =>
-              pair.first.split(": ")[0] == normalDanger.split(": ")[0])) {
+          if (!detectedNormalDangerList
+              .any((pair) => pair.first == normalDanger)) {
             detectedNormalDangerList.add(Pair(normalDanger, DateTime.now()));
             (vibrationMood) ? Vibration.vibrate(duration: 1000) : null;
           }
         }
         if (nonDanger.isNotEmpty) {
-          if (!detectedNormalList.any((pair) =>
-              pair.first.split(": ")[0] == nonDanger.split(": ")[0])) {
+          if (!detectedNormalList.any((pair) => pair.first == nonDanger)) {
             detectedNormalList.add(Pair(nonDanger, DateTime.now()));
           }
         }
@@ -405,10 +366,16 @@ class _output extends State<output> {
                     margin: EdgeInsets.only(bottom: 16),
                     child: ElevatedButton(
                       onPressed: () {
-                        setState(() {
+                        setState(() async {
                           buttonClicked = !buttonClicked;
                           isRecording = !isRecording;
                           if (!buttonClicked) stopRecording();
+                          final service = FlutterBackgroundService();
+                          if (!buttonClicked) {
+                            service.invoke("stopService");
+                          } else {
+                            service.startService();
+                          }
                         });
                       },
                       style: ElevatedButton.styleFrom(

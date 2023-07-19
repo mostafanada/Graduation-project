@@ -24,5 +24,3 @@ Future<void> showNotification(dynamic event) async {
     notificationDetails,
   );
 }
-
-// C:\Users\Hany Al-kelany\Desktop\Graduation\Graduation-project\lib\notifications\displaying_notifications.dart

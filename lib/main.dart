@@ -1,10 +1,3 @@
-<<<<<<< refs/remotes/origin/HanyDevelopment
-import 'package:createachannel/Screens/OnBoarding/login.dart';
-import 'package:flutter/material.dart';
-
-import 'Screens/OnBoarding/OnBoarding.dart';
-import 'Screens/OnBoarding/Splash.dart';
-=======
 import 'dart:async';
 import 'package:createachannel/Screens/OnBoarding/OnBoarding.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:createachannel/Screens/OnBoarding/splashh.dart';
 import 'notifications/displaying_notifications.dart';
 import 'notifications/notifications_settings.dart';
->>>>>>> local
 
-// import 'Screens/start/OnBoarding.dart';
-
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  const channel = EventChannel('example.com/channel');
+  await notificationServiceInitialization();
+  channel.receiveBroadcastStream().listen(showNotification);
   runApp(const MyApp());
-  
 }
 
 class MyApp extends StatelessWidget {
@@ -27,13 +20,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-<<<<<<< refs/remotes/origin/HanyDevelopment
-    return const MaterialApp(
-      title: 'Flutter Demo',
-=======
     return MaterialApp(
       title: 'Graduation Project',
->>>>>>> local
       debugShowCheckedModeBanner: false,
       //home: OnBoarding(),
       home: Splash(),
