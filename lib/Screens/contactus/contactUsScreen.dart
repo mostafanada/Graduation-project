@@ -1,8 +1,8 @@
 import 'package:createachannel/Screens/OutputScreen/outputScreen.dart';
+import 'package:createachannel/Screens/contactus/sendemail/sendEmailScreen.dart';
 // import 'package:createachannel/Screens/contactus/sendemail/sendEmailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 class ContactUsScreen extends StatefulWidget {
   @override
@@ -37,7 +37,8 @@ class _ContactUsScreen extends State<ContactUsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(
-                    Icons.location_on_rounded,
+                    // location_on_rounded
+                    Icons.phone,
                     size: 30,
                   ),
                   SizedBox(
@@ -72,7 +73,7 @@ class _ContactUsScreen extends State<ContactUsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(
-                    Icons.phone,
+                    Icons.location_on_rounded,
                     size: 30,
                   ),
                   SizedBox(
@@ -185,34 +186,34 @@ class _ContactUsScreen extends State<ContactUsScreen> {
                   ),
                 ),
                 Spacer(),
-                // GestureDetector(
-                //   onTap: () {
-                //     // Navigator.pushReplacement(
-                //     //     context,
-                //     //     MaterialPageRoute(
-                //     //       builder: (context) => sendEmailScreen(),
-                //     //     ));
-                //   },
-                //   child: Container(
-                //     height: 45,
-                //     width: 100,
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(25),
-                //       color: Colors.indigoAccent,
-                //     ),
-                //     // child: Center(
-                //     //   child: Text(
-                //     //     "Next",
-                //     //     textAlign: TextAlign.center,
-                //     //     style: TextStyle(
-                //     //       fontSize: 25,
-                //     //       fontWeight: FontWeight.bold,
-                //     //       color: Colors.white,
-                //     //     ),
-                //     //   ),
-                //     // ),
-                //   ),
-                // )
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => sendEmailScreen(),
+                        ));
+                  },
+                  child: Container(
+                    height: 45,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Colors.indigoAccent,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Next",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
               ],
             )
           ],

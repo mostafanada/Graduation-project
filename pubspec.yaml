@@ -42,9 +42,17 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   google_fonts: ^4.0.4
   url_launcher: ^6.1.11
+
   flutter_background_service: ^3.0.1
   flutter_background_service_android: ^4.0.1
   flutter_local_notifications: ^15.1.0+1
+  animations: ^2.0.7
+  animated_text_kit: ^4.2.2
+
+  flutter_background_service: ^3.0.1
+  flutter_background_service_android: ^4.0.1
+  flutter_local_notifications: ^15.1.0+1
+
 
 dev_dependencies:
   flutter_test:
@@ -103,6 +111,15 @@ flutter:
     - assets/icons/Water.png
     - assets/icons/Whistle.png
 
+    - assets/images/about.png
+    - assets/images/Clip path group (1).png
+    - assets/images/Group 2.png
+    - assets/images/colorr.jpg
+    - assets/images/cover.jpg
+    - assets/images/Clip path group (2).png
+    - assets/images/ic.jpg
+
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -125,6 +142,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: PlayfairDisplay
+      fonts:
+        - asset: assets/fonts/PlayfairDisplay-VariableFont_wght.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

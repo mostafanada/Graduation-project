@@ -1,9 +1,8 @@
 import 'dart:async';
-
+import 'package:createachannel/Screens/OnBoarding/OnBoarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'Screens/OnBoarding/Splash.dart';
+import 'package:createachannel/Screens/OnBoarding/splashh.dart';
 import 'notifications/displaying_notifications.dart';
 import 'notifications/notifications_settings.dart';
 
@@ -21,11 +20,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Graduation Project',
       debugShowCheckedModeBanner: false,
+      //home: OnBoarding(),
       home: Splash(),
-      //  home: output(),
     );
   }
 }
