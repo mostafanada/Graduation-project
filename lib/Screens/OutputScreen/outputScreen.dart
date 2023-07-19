@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vibration/vibration.dart';
-import '../SettingScreen/settin_display/display_mode_screen.dart';
-import '../SettingScreen/settings_screen.dart';
+import '../../SettingScreen/settin_display/display_mode_screen.dart';
+import '../../SettingScreen/settings_screen.dart';
 import '../about screen/aboutScreen.dart';
 import '../commonVariables/commonVariable.dart';
 import '../contactus/contactUsScreen.dart';
@@ -304,6 +304,7 @@ class _output extends State<output> {
         dividerColor: Colors.black,
       ),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -332,12 +333,12 @@ class _output extends State<output> {
                       SizedBox(
                         height: 220,
                       ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text('History',
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 20)),
-                      ),
+                      // TextButton(
+                      //   onPressed: () {},
+                      //   child: Text('History',
+                      //       style:
+                      //           TextStyle(color: Colors.black, fontSize: 20)),
+                      // ),
                       SizedBox(height: 25),
                       TextButton(
                         onPressed: () {
@@ -347,7 +348,7 @@ class _output extends State<output> {
                                 builder: (context) => SettingsScreen(),
                               ));
                         },
-                        child: Text('Setting',
+                        child: Text('Settings',
                             style:
                                 TextStyle(color: Colors.black, fontSize: 20)),
                       ),

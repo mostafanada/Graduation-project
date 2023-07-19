@@ -42,6 +42,14 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   google_fonts: ^4.0.4
   url_launcher: ^6.1.11
+<<<<<<< refs/remotes/origin/HanyDevelopment
+=======
+  flutter_background_service: ^3.0.1
+  flutter_background_service_android: ^4.0.1
+  flutter_local_notifications: ^15.1.0+1
+  animations: ^2.0.7
+  animated_text_kit: ^4.2.2
+>>>>>>> local
 
 dev_dependencies:
   flutter_test:
@@ -74,7 +82,42 @@ flutter:
     - assets/images/Clip2.png
     - assets/splash.jpg
     - assets/Splash2.png
+<<<<<<< refs/remotes/origin/HanyDevelopment
 
+=======
+    - assets/icons/Ambulance (siren).png
+    - assets/icons/Baby cry, infant cry.png
+    - assets/icons/Bell.png
+    - assets/icons/Boom.png
+    - assets/icons/Canidae, dogs, wolves.png
+    - assets/icons/Car.png
+    - assets/icons/Cat.png
+    - assets/icons/Chainsaw.png
+    - assets/icons/Chink, clink.png
+    - assets/icons/Clock.png
+    - assets/icons/Dog.png
+    - assets/icons/Dog.png
+    - assets/icons/Doorbell.png
+    - assets/icons/Fire engine, fire truck (siren).png
+    - assets/icons/Glass.png
+    - assets/icons/Gunshot, gunfire.png
+    - assets/icons/Livestock, farm animals, working animals.png
+    - assets/icons/Mechanisms.png
+    - assets/icons/Police car (siren).png
+    - assets/icons/Snake.png
+    - assets/icons/Speech.png
+    - assets/icons/Vehicle.png
+    - assets/icons/Water tap, faucet.png
+    - assets/icons/Water.png
+    - assets/icons/Whistle.png
+    - assets/images/about.png
+    - assets/images/Clip path group (1).png
+    - assets/images/Group 2.png
+    - assets/images/colorr.jpg
+    - assets/images/cover.jpg
+    - assets/images/Clip path group (2).png
+    - assets/images/ic.jpg
+>>>>>>> local
 
 
   # The following line ensures that the Material Icons font is
@@ -98,6 +141,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: PlayfairDisplay
+      fonts:
+        - asset: assets/fonts/PlayfairDisplay-VariableFont_wght.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

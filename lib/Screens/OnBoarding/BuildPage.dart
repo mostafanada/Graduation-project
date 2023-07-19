@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class BuildPage extends StatelessWidget {
   BuildPage(
-    
       {this.text1,
       this.image2,
       this.text2,
@@ -47,24 +46,27 @@ class BuildPage extends StatelessWidget {
               //Image.asset('$image2',width: 196,height: 326,alignment: Alignment.topLeft,),
             ],
           )),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '$text1 ',
-                style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: fontWeight1,
-                    fontFamily: 'PlayfairDisplay'),
-              ),
-              Text(
-                '$text2 ',
-                style: TextStyle(
-                    fontSize: 26,
-                    fontFamily: 'PlayfairDisplay',
-                    fontWeight: fontWeight2),
-              ),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '$text1 ',
+                  style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: fontWeight1,
+                      fontFamily: 'PlayfairDisplay'),
+                ),
+                Text(
+                  '$text2 ',
+                  style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: 'PlayfairDisplay',
+                      fontWeight: fontWeight2),
+                ),
+              ],
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
