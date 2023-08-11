@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vibration/vibration.dart';
+import '../../notifications/displaying_notifications.dart';
 import '../SettingScreen/settin_display/display_mode_screen.dart';
 import '../SettingScreen/settings_screen.dart';
 import '../about screen/aboutScreen.dart';
@@ -74,6 +75,7 @@ class _output extends State<output> {
     List<Widget> generateDangerLabels() {
       List<Widget> subCards = [];
       for (var x in detectedDangersList) {
+        showNotification(x.first);
         subCards.add(
           (dengerDisplay)
               ? Card(

@@ -42,6 +42,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   google_fonts: ^4.0.4
   url_launcher: ^6.1.11
+  flutter_local_notifications: ^15.1.0+1
 
 dev_dependencies:
   flutter_test:
