@@ -4,10 +4,10 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:vibration/vibration.dart';
-import '../../SettingScreen/settin_display/display_mode_screen.dart';
-import '../../SettingScreen/settings_screen.dart';
+import '../../notifications/displaying_notifications.dart';
+import '../SettingScreen/settin_display/display_mode_screen.dart';
+import '../SettingScreen/settings_screen.dart';
 import '../about screen/aboutScreen.dart';
 import '../commonVariables/commonVariable.dart';
 import '../contactus/contactUsScreen.dart';
@@ -19,6 +19,9 @@ class output extends StatefulWidget {
 }
 
 class _output extends State<output> {
+  List<Pair<String, DateTime>> detectedDangersList = [];
+  List<Pair<String, DateTime>> detectedNormalDangerList = [];
+  List<Pair<String, DateTime>> detectedNormalList = [];
   List<String> Score = [];
 
   StreamSubscription? subscription;
@@ -72,6 +75,7 @@ class _output extends State<output> {
     List<Widget> generateDangerLabels() {
       List<Widget> subCards = [];
       for (var x in detectedDangersList) {
+        showNotification(x.first);
         subCards.add(
           (dengerDisplay)
               ? Card(
@@ -238,7 +242,6 @@ class _output extends State<output> {
         if (danger.isNotEmpty) {
           if (!detectedDangersList.any((pair) => pair.first == danger)) {
             detectedDangersList.add(Pair(danger, DateTime.now()));
-            // print(detectedDangersList.last.first);
             (vibrationMood) ? Vibration.vibrate(duration: 1000) : null;
           }
         }
@@ -265,7 +268,6 @@ class _output extends State<output> {
         dividerColor: Colors.black,
       ),
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -294,12 +296,12 @@ class _output extends State<output> {
                       SizedBox(
                         height: 220,
                       ),
-                      // TextButton(
-                      //   onPressed: () {},
-                      //   child: Text('History',
-                      //       style:
-                      //           TextStyle(color: Colors.black, fontSize: 20)),
-                      // ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text('History',
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20)),
+                      ),
                       SizedBox(height: 25),
                       TextButton(
                         onPressed: () {
@@ -309,7 +311,7 @@ class _output extends State<output> {
                                 builder: (context) => SettingsScreen(),
                               ));
                         },
-                        child: Text('Settings',
+                        child: Text('Setting',
                             style:
                                 TextStyle(color: Colors.black, fontSize: 20)),
                       ),
@@ -366,16 +368,10 @@ class _output extends State<output> {
                     margin: EdgeInsets.only(bottom: 16),
                     child: ElevatedButton(
                       onPressed: () {
-                        setState(() async {
+                        setState(() {
                           buttonClicked = !buttonClicked;
                           isRecording = !isRecording;
                           if (!buttonClicked) stopRecording();
-                          final service = FlutterBackgroundService();
-                          if (!buttonClicked) {
-                            service.invoke("stopService");
-                          } else {
-                            service.startService();
-                          }
                         });
                       },
                       style: ElevatedButton.styleFrom(
