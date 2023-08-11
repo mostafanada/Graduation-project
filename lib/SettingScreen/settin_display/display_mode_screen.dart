@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../commonVariables/commonVariable.dart';
+import 'package:createachannel/Screens/commonVariables/commonVariable.dart';
 
 class DisplayScreen extends StatefulWidget {
   const DisplayScreen({Key? key}) : super(key: key);

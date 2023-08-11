@@ -1,9 +1,9 @@
-import 'package:createachannel/Screens/SettingScreen/settin_display/display_mode_screen.dart';
-import 'package:createachannel/Screens/SettingScreen/setting_customize/customize_sounds.dart';
+import 'package:createachannel/SettingScreen/settin_display/display_mode_screen.dart';
+import 'package:createachannel/SettingScreen/setting_customize/customize_sounds.dart';
 import 'package:flutter/material.dart';
 
-import '../OutputScreen/outputScreen.dart';
-import '../commonVariables/commonVariable.dart';
+import '../Screens/OutputScreen/outputScreen.dart';
+import '../Screens/commonVariables/commonVariable.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -334,14 +334,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             ListTile(
                 title: Text(
-                  'Alerting',
+                  'Vibration',
                   style: TextStyle(
                     fontSize: 20,
                     color: Color(0xFF676875),
                   ),
                 ),
                 subtitle: Text(
-                  'Alert Mode is ON',
+                  'Vibration Mode is ON',
                   style: TextStyle(
                     fontSize: 15,
                     color: Color(0xFF757373),
