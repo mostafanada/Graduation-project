@@ -1,0 +1,45 @@
+Shout # صياح
+Crying, sobbing # بكاء
+Snake # ثعبان
+Vehicle # مركبه
+Animal # حيوان
+Boom # صوت انفجار
+Burst, pop # صوت انفجار
+Gunshot, gunfire # طلق ناري
+Mechanisms # ادوات للاعمال الكهربيه
+Livestock, farm animals, working animals # حيوانات مزرعه
+Car # سياره
+Canidae, dogs, wolves # كلاب,ذئاب
+Dog # كلب
+Police car (siren) # سياره شرطه
+Ambulance (siren) # سياره اسعاف
+Fire engine, fire truck (siren) # سياره اطفاء
+Alarm # انذار
+Glass # زجاج
+Baby cry, infant cry # طفل يبكي ، صرخة طفل
+Whistling # صفير
+Finger snapping # عض الاصبع
+Cat # قطه
+Bird # طائر
+Snake # ثعبان
+Thunderstorm # عاصفة رعدية
+Thunder # رعد
+Motor vehicle (road) # سيارة (طريق)
+Air horn, truck horn # بوق هوائي ، بوق شاحنة
+Train # قطر
+Train horn # بوق القطار
+Train whistle # صافرة القطار
+Telephone bell ringing # رنين جرس الهاتف
+Ringtone # نغمة الرنين
+Fire alarm # إنذار حريق
+Whistle # صافرة
+Hammer # شاكوش
+Explosion # انفجار 
+Gunshot, gunfire # طلق ناري ، إطاق نار
+Machine gun # رشاش
+Fireworks # العاب ناريه
+Shatter # تحطيم
+Boiling # الغليان
+Chink, clink # طقطقة ، قرعشة
+Alarm clock # منبه
+Chainsaw # منشار
