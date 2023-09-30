@@ -2,10 +2,12 @@
 
 Ears of Deaf app.
 
-## Getting Started
-
 It is a mobile application developed using Flutter that aims to assist the deaf by using real-time audio streaming, and AI model.
 It detects and classifies dangerous sounds in the environment surrounding a deaf person to help prevent them from being in danger in their daily lives. The app delivers notifications via mobile vibrations.
+
+
+## Getting Started
+
 
 A few resources to get you started if this is your first Flutter project:
 
