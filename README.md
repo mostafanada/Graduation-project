@@ -1,8 +1,10 @@
-# createachannel
 
-Ears of Deaf app.
+# About the app
+
+My graduation project, "Ears of Deaf", and ended up with A+ 💯.
 
 It is a mobile application developed using Flutter that aims to assist the deaf by using real-time audio streaming, and AI model.
+
 It detects and classifies dangerous sounds in the environment surrounding a deaf person to help prevent them from being in danger in their daily lives. The app delivers notifications via mobile vibrations.
 
 
